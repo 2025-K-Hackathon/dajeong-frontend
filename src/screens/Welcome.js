@@ -13,8 +13,18 @@ const Welcome = ({ navigation }) => {
             <Desc>결혼 이주 여성들을 위한</Desc>
             <Desc>케어 서비스</Desc>
             <ButtonWrapper>
-                <WhiteButton text="로그인" onPress={() => navigation.navigate('Login')} />
-                <PinkButton text="회원가입" onPress={() => navigation.navigate('Signup1')} />
+                <WhiteButton 
+                    text="로그인" 
+                    width={276} 
+                    onPress={() => navigation.navigate('Login')} 
+                    shadow={true}
+                />
+                <PinkButton 
+                    text="회원가입" 
+                    width={276} 
+                    onPress={() => navigation.navigate('Signup1')} 
+                    shadow={true}
+                />
             </ButtonWrapper>
         </Wrapper>
     )
@@ -36,6 +46,7 @@ const Desc = styled.Text`
     font-size: 20px;
     font-family: 'semiBold';
     color: ${Colors.white};
+    line-height: 24px;
 `
 
 const ButtonWrapper = styled.View`
