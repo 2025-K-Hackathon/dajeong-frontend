@@ -11,9 +11,18 @@ const MainStack = () => {
     return (
         <Stack.Navigator>
             { isLogin ? (
-                <Stack.Screen name='BottomTab' component={BottomTab} />
+                <Stack.Screen 
+                    name='BottomTab' 
+                    component={BottomTab} 
+                />
             ) : (
-                <Stack.Screen name='LoginStack' component={LoginStack} />
+                <Stack.Screen 
+                    name='LoginStack' 
+                    component={LoginStack} 
+                    options={{
+                        headerShown: false,
+                    }}
+                />
             )}
         </Stack.Navigator>
     )

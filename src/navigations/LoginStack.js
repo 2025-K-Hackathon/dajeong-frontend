@@ -7,10 +7,34 @@ const Stack = createStackNavigator();
 const LoginStack = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Welcome' component={Welcome}/>
-            <Stack.Screen name='Signup1' component={Signup1}/>
-            <Stack.Screen name='Signup2' component={Signup2}/>
-            <Stack.Screen name='Login' component={Login}/>
+            <Stack.Screen 
+                name='Welcome' 
+                component={Welcome}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name='Signup1' 
+                component={Signup1}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name='Signup2' 
+                component={Signup2}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name='Login' 
+                component={Login}
+                options={{
+                    headerShown: false,
+                }}
+            />
         </Stack.Navigator>
     )
 }
