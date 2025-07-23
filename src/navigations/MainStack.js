@@ -14,6 +14,9 @@ const MainStack = () => {
                 <Stack.Screen 
                     name='BottomTab' 
                     component={BottomTab} 
+                    options={{
+                        headerShown: false,
+                    }}
                 />
             ) : (
                 <Stack.Screen 

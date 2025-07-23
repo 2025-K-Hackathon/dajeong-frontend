@@ -82,7 +82,7 @@ const Wrapper = styled(ImageBackground)`
 
 const Header = styled.View`
     width: 100%;
-    margin-top: 79px;
+    margin-top: 56px;
 `
 
 const BackWrapper = styled.TouchableOpacity`

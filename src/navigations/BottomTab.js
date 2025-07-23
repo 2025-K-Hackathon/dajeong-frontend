@@ -62,7 +62,7 @@ const BottomTab = () => {
                                 ? require('../../assets/images/common/living-info-clicked.png')
                                 : require('../../assets/images/common/living-info.png')
                             }
-                            size={30}
+                            size={23}
                         />
                     )
                 }}
@@ -79,7 +79,7 @@ const BottomTab = () => {
                                 ? require('../../assets/images/common/ai-diary-clicked.png')
                                 : require('../../assets/images/common/ai-diary.png')
                             }
-                            size={30}
+                            size={23}
                         />
                     )
                 }}
@@ -96,7 +96,7 @@ const BottomTab = () => {
                                 ? require('../../assets/images/common/home-clicked.png')
                                 : require('../../assets/images/common/home.png')
                             }
-                            size={30}
+                            size={23}
                         />
                     )
                 }}
@@ -113,7 +113,7 @@ const BottomTab = () => {
                                 ? require('../../assets/images/common/community-clicked.png')
                                 : require('../../assets/images/common/community.png')
                             }
-                            size={30}
+                            size={23}
                         />
                     )
                 }}
@@ -123,6 +123,7 @@ const BottomTab = () => {
                 component={Mypage} 
                 options={{
                     title: '마이페이지',
+                    headerShown: false,
                     tabBarIcon: ({ focused }) => (
                         <TabIcon
                             source={
@@ -130,7 +131,7 @@ const BottomTab = () => {
                                 ? require('../../assets/images/common/mypage-clicked.png')
                                 : require('../../assets/images/common/mypage.png')
                             }
-                            size={30}
+                            size={23}
                         />
                     )
                 }}
