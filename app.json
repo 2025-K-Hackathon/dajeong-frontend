@@ -4,13 +4,13 @@
     "slug": "dajeong-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/main/mini-dark.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/main/splash.png",
+      "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FF7E94"
     },
     "ios": {
       "supportsTablet": true
