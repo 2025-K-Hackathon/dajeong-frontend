@@ -6,7 +6,7 @@ import BottomTab from './BottomTab';
 const Stack = createStackNavigator();
 
 const MainStack = () => {
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
 
     return (
         <Stack.Navigator>

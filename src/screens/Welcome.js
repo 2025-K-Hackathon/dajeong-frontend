@@ -24,6 +24,7 @@ const Welcome = ({ navigation }) => {
                     width={276} 
                     onPress={() => navigation.navigate('Signup1')} 
                     shadow={true}
+                    border={true}
                 />
             </ButtonWrapper>
         </Wrapper>
@@ -38,7 +39,7 @@ const Wrapper = styled(ImageBackground)`
 
 const Logo = styled(Image)`
     width: 170.73px;
-    height: 92.66;
+    height: 92.66px;
     margin-bottom: 37px;
 `
 

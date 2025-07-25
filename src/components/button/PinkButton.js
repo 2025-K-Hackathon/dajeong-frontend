@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { Colors } from '../../theme';
 import PropTypes from 'prop-types';
 
-const PinkButton = ({ text, width="100%", height=50, onPress, shadow=false, disabled=false }) => {
+const PinkButton = ({ text, width="100%", height=50, onPress, shadow=false, border=false, disabled=false }) => {
     return (
-        <Wrapper width={width} height={height} onPress={onPress} shadow={shadow} disabled={disabled}>
+        <Wrapper width={width} height={height} onPress={onPress} shadow={shadow} border={border} disabled={disabled}>
             <StyledText>{ text }</StyledText>
         </Wrapper>
     )
@@ -14,7 +14,7 @@ const PinkButton = ({ text, width="100%", height=50, onPress, shadow=false, disa
 
 const Wrapper = styled.TouchableOpacity`
     border-radius: 15px;
-    border: 1px solid ${Colors.white};
+    border: ${(props) => props.border ? `1px solid ${Colors.white}` : 'none'};
     background-color: ${Colors.main};
     width: ${(props) => (typeof props.width === 'number' ? `${props.width}px` : props.width)};
     height: ${(props) => props.height}px;
@@ -46,6 +46,7 @@ PinkButton.propTypes = {
     height: PropTypes.number,
     onPress: PropTypes.func,
     shadow: PropTypes.bool,
+    border: PropTypes.bool,
     disabled: PropTypes.bool,
 }
 
