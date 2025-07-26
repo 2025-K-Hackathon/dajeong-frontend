@@ -15,7 +15,7 @@ const PinkButton = ({ text, width="100%", height=50, onPress, shadow=false, bord
 const Wrapper = styled.TouchableOpacity`
     border-radius: 15px;
     border: ${(props) => props.border ? `1px solid ${Colors.white}` : 'none'};
-    background-color: ${Colors.main};
+    background-color: ${(props) => props.disabled ? '#E4E4E4': `${Colors.main}`};
     width: ${(props) => (typeof props.width === 'number' ? `${props.width}px` : props.width)};
     height: ${(props) => props.height}px;
     display: flex;
