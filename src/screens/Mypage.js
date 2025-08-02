@@ -3,39 +3,45 @@ import { View, Text } from 'react-native';
 import { styled } from 'styled-components';
 import { CustomMiniHeader } from '../components';
 import { UserData } from './../constant/userData';
+import { Colors } from './../theme';
 
 const Mypage = () => {
     return (
-        <Wrapper>
-            <CustomMiniHeader text="마이페이지" marginBottom={39} />
-            <Title>{UserData.name}</Title>
-            <CategoryWrapper>
-                <IdCategory>아이디</IdCategory>
-                <Id>{UserData.username}</Id>
-            </CategoryWrapper>
+        <View>
+            <Wrapper>
+                <CustomMiniHeader text="마이페이지" marginBottom={39} />
+                <Title>{UserData.name}</Title>
+                <CategoryWrapper>
+                    <IdCategory>아이디</IdCategory>
+                    <Id>{UserData.username}</Id>
+                </CategoryWrapper>
+            </Wrapper>
             <Line />
-            <Title>회원 정보</Title>
-            <CategoryWrapper>
-                <Category>출신 국가</Category>
-                <Value>{UserData.nationality}</Value>
-            </CategoryWrapper>
-            <CategoryWrapper>
-                <Category>연령대</Category>
-                <Value>{UserData.age}</Value>
-            </CategoryWrapper>
-            <CategoryWrapper>
-                <Category>지역</Category>
-                <Value>{UserData.region}</Value>
-            </CategoryWrapper>
-            <CategoryWrapper>
-                <Category>결혼 여부</Category>
-                <Value>{UserData.married ? '기혼'  : '미혼'}</Value>
-            </CategoryWrapper>
-            <CategoryWrapper>
-                <Category>자녀 유무</Category>
-                <Value>{UserData.hasChildren ? 'o' : 'x'}</Value>
-            </CategoryWrapper>
-        </Wrapper>
+            <InfoWrapper>
+                <Title>회원 정보</Title>
+                <CategoryWrapper>
+                    <Category>출신 국가</Category>
+                    <Value>{UserData.nationality}</Value>
+                </CategoryWrapper>
+                <CategoryWrapper>
+                    <Category>연령대</Category>
+                    <Value>{UserData.age}</Value>
+                </CategoryWrapper>
+                <CategoryWrapper>
+                    <Category>지역</Category>
+                    <Value>{UserData.region}</Value>
+                </CategoryWrapper>
+                <CategoryWrapper>
+                    <Category>결혼 여부</Category>
+                    <Value>{UserData.married ? '기혼'  : '미혼'}</Value>
+                </CategoryWrapper>
+                <CategoryWrapper>
+                    <Category>자녀 유무</Category>
+                    <Value>{UserData.hasChildren ? 'o' : 'x'}</Value>
+                </CategoryWrapper>
+            </InfoWrapper>
+            <Line />
+        </View>
     )
 }
 
@@ -85,10 +91,15 @@ const Value = styled.Text`
 `
 
 const Line = styled.View`
-    margin-bottom: 15px;
     width: 100%;
     height: 2px;
     background-color: #E6E6E6;
+    margin: 0 15px;
+`
+
+const InfoWrapper = styled.View`
+    background-color: ${Colors.back};
+    padding: 15px;
 `
 
 export default Mypage
