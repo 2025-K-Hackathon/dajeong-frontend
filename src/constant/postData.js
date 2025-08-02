@@ -1,6 +1,6 @@
-export const CommunityList = [
+export const PostData = [
     {
-        title: '같이 밥 먹으면서 이야기할 분 있나요?',
+        title: '같이 밥 먹으면서 이야기할 분 있나요?????',
         content: '제가 카카오톡 그룹 만들 수 있어요! 부산 중구 주민 환영합니다 ^^',
         image: 'https://cdn.pixabay.com/photo/2017/04/08/12/59/girlfriends-2213259_1280.jpg',
         region: '경상도',
@@ -41,7 +41,7 @@ export const CommunityList = [
     },
     {
         title: '같이 밥 먹으면서 이야기할 분 있나요?',
-        content: '제가 카카오톡 그룹 만들 수 있어요! 부산 중구 주민 환영합니다 ^^',
+        content: '^^',
         image: 'https://cdn.pixabay.com/photo/2017/04/08/12/59/girlfriends-2213259_1280.jpg',
         region: '경상도',
         nationality: '필리핀',

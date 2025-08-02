@@ -91,7 +91,6 @@ const Value = styled.Text`
 `
 
 const Line = styled.View`
-    width: 100%;
     height: 2px;
     background-color: #E6E6E6;
     margin: 0 15px;
