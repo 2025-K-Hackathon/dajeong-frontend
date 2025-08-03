@@ -7,7 +7,7 @@ import { Colors } from './../theme';
 
 const Mypage = () => {
     return (
-        <View>
+        <Background>
             <Wrapper>
                 <CustomMiniHeader text="마이페이지" marginBottom={39} />
                 <Title>{UserData.name}</Title>
@@ -41,9 +41,14 @@ const Mypage = () => {
                 </CategoryWrapper>
             </InfoWrapper>
             <Line />
-        </View>
+        </Background>
     )
 }
+
+const Background = styled.View`
+    background-color: #FFFFFF;
+    flex: 1;
+`
 
 const Wrapper = styled.View`
     padding: 0 15px;

@@ -6,8 +6,10 @@ import Background from '../../assets/images/main/background.png';
 import Back from '../../assets/images/common/back.png';
 import logoBright from '../../assets/images/main/logo-bright.png';
 import { PinkButton } from '../components';
+import { getStatusBarHeight } from "react-native-status-bar-height"; 
 
 const Login = ({ navigation }) => {
+    const statusBarHeight = getStatusBarHeight();
     const [isReady, setIsReady] = useState(false);
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
@@ -32,7 +34,7 @@ const Login = ({ navigation }) => {
 
     return (
         <Wrapper source={Background}>
-            <Header>
+            <Header marginTop={statusBarHeight+26}>
                 <BackWrapper onPress={() => navigation.goBack()}>
                     <Image source={Back} />
                 </BackWrapper>
@@ -82,7 +84,7 @@ const Wrapper = styled(ImageBackground)`
 
 const Header = styled.View`
     width: 100%;
-    margin-top: 56px;
+    margin-top: ${(props) => props.marginTop};
 `
 
 const BackWrapper = styled.TouchableOpacity`

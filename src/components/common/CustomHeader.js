@@ -5,14 +5,16 @@ import PropTypes from 'prop-types';
 import LogoDark from '../../../assets/images/main/logo-dark.png';
 import Back from '../../../assets/images/common/back.png';
 import { useNavigation } from '@react-navigation/native';
+import { getStatusBarHeight } from "react-native-status-bar-height"; 
 
 const CustomHeader = ({ type="image", text="", back=true }) => {
+    const statusBarHeight = getStatusBarHeight();
     const navigation = useNavigation();
 
     return (
-        <Wrapper>
+        <Wrapper marginTop={statusBarHeight+10}>
             { back && (
-                <BackWrapper onPress={() => navigation.goBack()}>
+                <BackWrapper onPress={() => navigation.goBack()} >
                     <Image source={Back} />
                 </BackWrapper>
             )}
@@ -27,7 +29,7 @@ const CustomHeader = ({ type="image", text="", back=true }) => {
 
 const Wrapper = styled.View`
     width: 100%;
-    margin-top: 40px;
+    margin-top: ${(props) => props.marginTop};
     height: 42.19px;
     display: flex;
     align-items: center;

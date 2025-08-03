@@ -10,15 +10,17 @@ import { Policy } from '../constant/policyData';
 import CardNews1 from '../../assets/images/home/card-news1.png';
 import CardNews2 from '../../assets/images/home/card-news2.png';
 import { Conversation } from './../constant/conversationData';
+import { getStatusBarHeight } from "react-native-status-bar-height"; 
 
 const Home = ({ navigation }) => {
+    const statusBarHeight = getStatusBarHeight();
     const [name, setName] = useState('사용자');
     const [previewType, setPreviewType] = useState('policy'); // policy와 news 둘 중 하나
 
     return (
-        <View>
+        <Wrapper>
             <View>
-                <Logo source={MiniBright} />
+                <Logo source={MiniBright} top={statusBarHeight+10}/>
                 <BannerImage source={Banner}/>
                 <TextWrapper>
                     <Title>안녕하세요, {name} 님</Title>
@@ -85,9 +87,13 @@ const Home = ({ navigation }) => {
                     contentContainerStyle={{gap: 10, marginLeft: 15}}
                 />
             </ConversationWrapper>
-        </View>
+        </Wrapper>
     )
 }
+
+const Wrapper = styled.View`
+    background-color: #FFFFFF;
+`
 
 const BannerImage = styled(Image)`
     width: 100%;
@@ -96,7 +102,7 @@ const BannerImage = styled(Image)`
 
 const Logo = styled(Image)`
     position: absolute;
-    top: 30px;
+    top: ${(props) => props.top};
     width: 33px;
     height: 33px;
     z-index: 1;

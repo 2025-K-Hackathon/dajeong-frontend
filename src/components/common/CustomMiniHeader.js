@@ -2,10 +2,13 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import styled from 'styled-components';
 import MiniDark from '../../../assets/images/main/mini-dark.png';
+import { getStatusBarHeight } from "react-native-status-bar-height"; 
 
 const CustomMiniHeader = ({ text, marginBottom }) => {
+    const statusBarHeight = getStatusBarHeight();
+
     return (
-        <Wrapper marginBottom={marginBottom}>
+        <Wrapper marginBottom={marginBottom} paddingTop={statusBarHeight+7}>
             <Logo source={MiniDark} />
             <Title>{text}</Title>
         </Wrapper>
@@ -14,7 +17,7 @@ const CustomMiniHeader = ({ text, marginBottom }) => {
 
 const Wrapper = styled.View`
     width: 100%;
-    padding-top: 37px;
+    padding-top: ${(props) => props.paddingTop};
     display: flex;
     flex-direction: row;
     gap: 9px;
