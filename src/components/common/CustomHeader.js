@@ -5,9 +5,10 @@ import PropTypes from 'prop-types';
 import LogoDark from '../../../assets/images/main/logo-dark.png';
 import Back from '../../../assets/images/common/back.png';
 import { useNavigation } from '@react-navigation/native';
-import { getStatusBarHeight } from "react-native-status-bar-height"; 
+import { getStatusBarHeight } from "react-native-status-bar-height";
+import { Colors } from './../../theme';
 
-const CustomHeader = ({ type="image", text="", back=true }) => {
+const CustomHeader = ({ type="image", text="", back=true, buttonText, onPress }) => {
     const statusBarHeight = getStatusBarHeight();
     const navigation = useNavigation();
 
@@ -18,11 +19,15 @@ const CustomHeader = ({ type="image", text="", back=true }) => {
                     <Image source={Back} />
                 </BackWrapper>
             )}
-
             {type==="image" 
                 ? <Logo source={LogoDark} />
                 : <Title>{text}</Title>
             }
+            {buttonText && (
+                <ButtonWrapper onPress={onPress}>
+                    <ButtonText>{buttonText}</ButtonText>
+                </ButtonWrapper>
+            )}
         </Wrapper>
     )
 }
@@ -54,10 +59,32 @@ const BackWrapper = styled(TouchableOpacity)`
     justify-self: center;
 `
 
+const ButtonWrapper = styled(TouchableOpacity)`
+    width: 85px;
+    height: 31px;
+    background-color: ${Colors.main};
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 15px;
+`
+
+const ButtonText = styled.Text`
+    color: #FFFFFF;
+    font-family: 'medium';
+    font-size: 15px;
+    line-height: 22px;
+`
+
 CustomHeader.propTypes = {
     type: PropTypes.string,
     text: PropTypes.string,
     back: PropTypes.bool,
+    button: PropTypes.bool,
+    buttonText: PropTypes.string,
+    onPress: PropTypes.func,
 }
 
 export default CustomHeader

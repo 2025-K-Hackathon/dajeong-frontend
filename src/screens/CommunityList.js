@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Button, Text, Image, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
+import { Colors } from '../theme';
 import { CustomMiniHeader, Filtering, Post } from '../components';
 import { PostData } from '../constant/postData';
+import Plus from '../../assets/images/community/plus.png';
 
-const CommunityList = () => {
+const CommunityList = ({ navigation }) => {
     const [openDropdown, setOpenDropdown] = useState(null);
     const [selectedValues, setSelectedValues] = useState({
         order: null,
@@ -73,13 +75,17 @@ const CommunityList = () => {
                 keyExtractor={(item , index) => index.toString()}
                 contentContainerStyle={{marginLeft: 15, marginRight: 15, marginBottom: 96}}
             />
+            <WritingButton onPress={() => navigation.navigate('CommunityCreate')}>
+                <Image source={Plus}/>
+                <WritingButtonText>글쓰기</WritingButtonText>
+            </WritingButton>
         </Layout>
     )
 }
 
 const Layout = styled.View`
     background-color: #FFFFFF;
-    padding-bottom: 135px;
+    padding-bottom: 130px;
 `
 
 const Wrapper = styled.View`
@@ -95,6 +101,28 @@ const FilterWrapper = styled.View`
     height: 47px;
     background-color: #F7F4F7;
     width: 100%;
+`
+
+const WritingButton = styled(TouchableOpacity)`
+    width: 113px;
+    height: 41px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 8px;
+    background-color: ${Colors.main};
+    position: absolute;
+    right: 15px;
+    bottom: 140;
+`
+
+const WritingButtonText = styled.Text`
+    color: #FFFFFF;
+    font-family: 'semiBold';
+    font-size: 16px;
+    line-height: 20px;
 `
 
 export default CommunityList
