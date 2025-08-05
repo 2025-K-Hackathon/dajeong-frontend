@@ -6,7 +6,7 @@ import { Policy } from '../constant/policyData';
 import CardNews1 from '../../assets/images/home/card-news1.png';
 import CardNews2 from '../../assets/images/home/card-news2.png';
 
-const Recommend = () => {
+const Recommend = ({ navigation }) => {
     return (
         <Layout>
             <TabHeader />
@@ -31,7 +31,7 @@ const Recommend = () => {
                     showsHorizontalScrollIndicator={false}
                 >
                     <CardRow>
-                        <CardWrapper>
+                        <CardWrapper onPress={() => navigation.navigate('NewsDetail')}>
                             <CardImage source={CardNews1} resizeMode="cover"/>
                         </CardWrapper>
                         <CardWrapper>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Recommend, CardList, CardDetail, CardCreate } from '../screens';
+import { Recommend, NewsDetail, CardList, CardDetail, CardCreate } from '../screens';
 
 const Stack = createStackNavigator();
 
@@ -10,6 +10,13 @@ const LivingInfoStack = () => {
             <Stack.Screen 
                 name="Recommend" 
                 component={Recommend} 
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name="NewsDetail" 
+                component={NewsDetail} 
                 options={{
                     headerShown: false,
                 }}
