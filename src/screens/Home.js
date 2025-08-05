@@ -48,7 +48,7 @@ const Home = ({ navigation }) => {
                 {previewType==="policy" ? (
                     <PreviewContentWrapper>
                         <PolicyWrapper>
-                            {Policy.map((policy, index) => (
+                            {Policy.slice(0, 3).map((policy, index) => (
                                 <View key={index}>
                                     <PolicyTitle>{policy.title}</PolicyTitle>
                                     <PolicyDate>{policy.date}</PolicyDate>
@@ -198,7 +198,6 @@ const PolicyWrapper = styled.View`
     gap: 10px;
     margin-top: 8px;
 `
-
 
 const PolicyTitle = styled.Text`
     font-size: 15px;

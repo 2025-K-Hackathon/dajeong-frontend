@@ -7,10 +7,34 @@ const Stack = createStackNavigator();
 const LivingInfoStack = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Recommend" component={Recommend} />
-            <Stack.Screen name="CardList" component={CardList} />
-            <Stack.Screen name="CardDetail" component={CardDetail} />
-            <Stack.Screen name="CardCreate" component={CardCreate} />
+            <Stack.Screen 
+                name="Recommend" 
+                component={Recommend} 
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name="CardList" 
+                component={CardList} 
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name="CardDetail" 
+                component={CardDetail} 
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name="CardCreate" 
+                component={CardCreate} 
+                options={{
+                    headerShown: false,
+                }}
+            />
         </Stack.Navigator>
     )
 }
