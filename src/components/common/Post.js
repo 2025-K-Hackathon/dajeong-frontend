@@ -3,10 +3,13 @@ import styled from 'styled-components';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Like from '../../../assets/images/community/like.png';
 import Comment from '../../../assets/images/community/comment.png';
+import { useNavigation } from '@react-navigation/native';
 
 const Post = ({ post }) => {
+    const navigation = useNavigation();
+
     return (
-        <Wrapper>
+        <Wrapper onPress={() => navigation.navigate("CommunityDetail")}>
             <Top>
                 <Left>
                     <Title>{post.title}</Title>

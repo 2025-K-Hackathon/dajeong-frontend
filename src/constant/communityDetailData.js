@@ -1,4 +1,4 @@
-export const CommunityDetail = {
+export const PostDetail = {
     title: '안녕하세요! 저는 처음 왔어요',
     content: '중국에서 왔고 한국은 온 지 6개월 됐어요. 여기서도 친구도 사귀고 싶어요!',
     image: 'https://cdn.pixabay.com/photo/2017/04/08/12/59/girlfriends-2213259_1280.jpg',

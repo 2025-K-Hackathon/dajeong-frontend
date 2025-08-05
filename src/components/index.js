@@ -6,5 +6,6 @@ import Dropdown from "./common/Dropdown";
 import CustomBottomSheet from "./common/CustomBottomSheet";
 import Filtering from "./common/Filtering";
 import Post from "./common/Post";
+import Comment from "./common/Comment";
 
-export { WhiteButton, PinkButton, CustomHeader, CustomMiniHeader, Dropdown, CustomBottomSheet, Filtering, Post }
+export { WhiteButton, PinkButton, CustomHeader, CustomMiniHeader, Dropdown, CustomBottomSheet, Filtering, Post, Comment }

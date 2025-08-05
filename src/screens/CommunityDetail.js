@@ -1,12 +1,280 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity, KeyboardAvoidingView, Platform, Keyboard, ScrollView } from 'react-native';
+import { Colors }from '../theme';
+import styled from 'styled-components';
+import { CustomHeader, Comment } from './../components';
+import { PostDetail } from './../constant/communityDetailData';
+import Like from '../../assets/images/community/like.png';
+import Unlike from '../../assets/images/community/unlike.png';
+import CommentIcon from '../../assets/images/community/comment.png';
+import Send from '../../assets/images/community/send.png';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { TextInput } from 'react-native-gesture-handler';
+import { Comments } from '../constant/commentData';
 
 const CommunityDetail = () => {
+    const navigation = useNavigation();
+    const [isLiked, setIsLiked] = useState(false);
+    const isFocused = useIsFocused();
+    const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+    useEffect(() => {
+        const showSubscription = Keyboard.addListener('keyboardDidShow', (e) => {
+            setKeyboardHeight(e.endCoordinates.height);
+        });
+        const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardHeight(0);
+        });
+
+        return () => {
+            showSubscription.remove();
+            hideSubscription.remove();
+        };
+    }, []);
+
+    useEffect(() => {
+        if (isFocused) {
+            navigation.getParent()?.setOptions({
+                tabBarStyle: { display: 'none' }
+            });
+        }
+
+        return () => {
+            navigation.getParent()?.setOptions({
+                tabBarStyle: {
+                    height: 96,
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 0 },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 4,
+                    elevation: 4,
+                    backgroundColor: '#fff',
+                    borderTopWidth: 0,
+                    paddingTop: 10,
+                }
+            });
+        };
+    }, [isFocused]);
+
     return (
-        <View>
-            <Text>커뮤니티 게시글 디테일</Text>
-        </View>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            keyboardVerticalOffset={0}
+            style={{ flex: 1 }}
+        >
+            <Layout>
+                <CustomHeader type="text" text="글 상세" />
+                <ScrollView
+                    contentContainerStyle={{ paddingBottom: 96 }}
+                    keyboardShouldPersistTaps="handled"
+                >
+                    <TitleWrapper>
+                        <Title>{PostDetail.title}</Title>
+                        <WriterWrapper>
+                            <WriterText>{PostDetail.region}</WriterText>
+                            <Line />
+                            <WriterText>{PostDetail.nationality}</WriterText>
+                            <Line />
+                            <WriterText>2일전</WriterText>
+                        </WriterWrapper>
+                    </TitleWrapper>
+                    <Wrapper>
+                        <Content>{PostDetail.content}</Content>
+                        {PostDetail.image && <ContentImage src={PostDetail.image} />}
+                        <ReactionWrapper>
+                            <MyLikeWrapper>
+                                <Image source={isLiked ? Like : Unlike} />
+                                <MyLikeText>좋아요</MyLikeText>
+                            </MyLikeWrapper>
+                            <RowWrapper>
+                                <LikeCommentWrapper>
+                                    <Image source={Like} />
+                                    <LikeCommentText>{PostDetail.likeCount}</LikeCommentText>
+                                </LikeCommentWrapper>
+                                <LikeCommentWrapper>
+                                    <Image source={CommentIcon} />
+                                    <LikeCommentText>{PostDetail.commentCount}</LikeCommentText>
+                                </LikeCommentWrapper>
+                            </RowWrapper>
+                        </ReactionWrapper>
+                    </Wrapper>
+                    <DividingLine />
+                    <CommentWrapper>
+                        {Comments.map((comment, index) => (
+                        <Comment
+                            key={index}
+                            region={comment.region}
+                            nationality={comment.nationality}
+                            time={comment.time}
+                            content={comment.content}
+                        />
+                        ))}
+                    </CommentWrapper>
+                </ScrollView>
+                {/* 댓글 입력창 */}
+                <CommentInputLayout style={{ position: 'absolute', bottom: keyboardHeight }}>
+                    <CommentInputWrapper>
+                        <CommentInput placeholder="댓글을 남겨보세요!" />
+                            <TouchableOpacity>
+                            <Image source={Send} />
+                        </TouchableOpacity>
+                    </CommentInputWrapper>
+                </CommentInputLayout>
+            </Layout>
+        </KeyboardAvoidingView>
     )
 }
+
+const Layout = styled.View`
+    background-color: #FFFFFF;
+    flex: 1;
+`
+
+const Wrapper = styled.View`
+    padding: 0 25px;
+`
+
+const TitleWrapper = styled.View`
+    background-color: #FFF6F6;
+    width: 100%;
+    padding: 15px 25px;
+    margin-bottom: 15px;
+`
+
+const Title = styled.Text`
+    font-size: 17px;
+    line-height: 22px;
+    font-family: 'semiBold';
+    margin-bottom: 5px;
+`
+
+const WriterWrapper = styled.View`
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+`
+
+const WriterText = styled.Text`
+    font-size: 13px;
+    font-family: 'regular';
+    line-height: 22px;
+`
+
+const Line = styled.View`
+    height: 14px;
+    width: 1px;
+    background-color: #7F7B7B;
+    margin: 0 5px;
+`
+
+const Content = styled.Text`
+    font-size: 15px;
+    font-family: 'regular';
+    line-height: 22px;
+    margin-bottom: 22px;
+`
+
+const ContentImage = styled(Image)`
+    width: 100%;
+    height: 310px;
+    border-radius: 15px;
+    object-fit: cover;
+    margin-bottom: 18px;
+`
+
+const ReactionWrapper = styled.View`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-bottom: 13px;
+`
+
+const MyLikeWrapper = styled(TouchableOpacity)`
+    background-color: #F0F0F0;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 88px;
+    height: 34px;
+    gap: 5px;
+`
+
+const MyLikeText = styled.Text`
+    font-size: 13px;
+    font-family: 'medium';
+    line-height: 16px;
+    color: #787878;
+`
+
+const RowWrapper = styled.View`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 17px;
+`
+
+const LikeCommentWrapper = styled.View`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 6px;
+`
+
+const LikeCommentText = styled.Text`
+    font-size: 15px;
+    font-family: 'regular';
+    line-height: 26px;
+`
+
+const DividingLine = styled.View`
+    background-color: #F2F2F2;
+    height: 13px;
+    width: 100%;
+`
+
+const CommentWrapper = styled.View`
+    display: flex;
+    padding: 0 25px;
+`
+
+const CommentInputLayout = styled.View`
+    background-color: #FFFFFF;
+    height: 96px;
+    width: 100%;
+    padding: 0 15px;
+    /* 그림자 */
+    shadow-color: rgba(0, 0, 0, 1);
+    shadow-offset: {
+        width: 0px;
+        height: -4px;
+    };
+    shadow-opacity: 0.2;
+    shadow-radius: 4px;
+    z-index: 10;
+`
+
+const CommentInputWrapper = styled.View`
+    border: 1px solid ${Colors.main};
+    width: 100%;
+    height: 42px;
+    margin: 7px 0;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    border-radius: 100px;
+`
+
+const CommentInput = styled(TextInput)`
+    font-size: 15px;
+    line-height: 22px;
+    width: 100%;
+    padding: 0 15px;
+`
 
 export default CommunityDetail
