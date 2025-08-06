@@ -8,7 +8,7 @@ import { CardContent } from './../constant/cardContentData';
 import Plus from '../../assets/images/livingInfo/plus.png';
 import Sound from '../../assets/images/livingInfo/sound.png';
 
-const CardDetail = () => {
+const CardDetail = ({ navigation }) => {
     return (
         <Layout>
             <CustomHeader type="text" text="회화 카드" />
@@ -37,7 +37,7 @@ const CardDetail = () => {
                             </ConversationWrapper>
                         ))}
                     </CardWrapper>
-                    <PlusWrapper>
+                    <PlusWrapper onPress={() => navigation.navigate('CardCreate')}>
                         <Image source={Plus} />
                     </PlusWrapper>
                 </Wrapper>
