@@ -9,11 +9,10 @@ import NewsDetail from "./NewsDetail";
 import CardList from "./CardList";
 import CardDetail from "./CardDetail";
 import CardCreate from "./CardCreate";
-import AiDiaryCreate from "./AiDiaryCreate";
-import AiDiaryDetail from "./AiDiaryDetail";
+import AiDiary from "./AiDiary";
 import CommunityList from './CommunityList';
 import CommunityCreate from "./CommunityCreate";
 import CommunityDetail from "./CommunityDetail";
 import Mypage from "./Mypage";
 
-export { Welcome, Signup1, Signup2, Login, TermsOfUse, Home, Recommend, NewsDetail, CardList, CardDetail, CardCreate, AiDiaryCreate, AiDiaryDetail, CommunityList, CommunityCreate, CommunityDetail, Mypage }
+export { Welcome, Signup1, Signup2, Login, TermsOfUse, Home, Recommend, NewsDetail, CardList, CardDetail, CardCreate, AiDiary, CommunityList, CommunityCreate, CommunityDetail, Mypage }

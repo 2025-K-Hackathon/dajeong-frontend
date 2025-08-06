@@ -25,7 +25,7 @@ const Home = ({ navigation }) => {
                 <TextWrapper>
                     <Title>안녕하세요, {name} 님</Title>
                     <Welcome>오늘은 어떤 하루였나요?</Welcome>
-                    <ButtonWrapper onPress={() => navigation.navigate("AiDiaryStack")}>
+                    <ButtonWrapper onPress={() => navigation.navigate("AiDiary")}>
                         <ButtonText>일기 쓰러 가기</ButtonText>
                         <Image source={Arrow}/>
                     </ButtonWrapper>

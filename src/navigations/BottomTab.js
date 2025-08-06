@@ -1,9 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from 'react-native';
-import { Home, Mypage } from '../screens';
+import { Home, AiDiary, Mypage } from '../screens';
 import LivingInfoStack from './LivingInfoStack';
-import AiDiaryStack from './AiDiaryStack';
 import CommmunityStack from './CommunityStack';
 
 const Tab = createBottomTabNavigator();
@@ -69,8 +68,8 @@ const BottomTab = () => {
                 }}
             />
             <Tab.Screen 
-                name='AiDiaryStack' 
-                component={AiDiaryStack} 
+                name='AiDiary' 
+                component={AiDiary} 
                 options={{
                     title: 'AI 일기',
                     tabBarIcon: ({ focused }) => (

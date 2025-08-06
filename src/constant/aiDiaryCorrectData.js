@@ -1,27 +1,37 @@
-export const AiDiaryCorrect = [
-    {
-        "originalText": "오느른 날시가 흐려따.",
-        "fullCorrectedText": "오늘 날씨가 흐렸어요.",
-        "reply": "오늘 날씨가 흐려서 기분이 조금 울적할 수도 있겠네요. 그래도 괜찮아요, 따뜻한 차 한 잔 마시면서 잠시 쉬어보는 건 어떠세요?",
-        "corrections": [
-            {
-                "incorrect": "느른",
-                "corrected": "늘",
-                "start": 1,
-                "end": 3
-            },
-            {
-                "incorrect": "시",
-                "corrected": "씨",
-                "start": 5,
-                "end": 6
-            },
-            {
-                "incorrect": "려따",
-                "corrected": "렸어요",
-                "start": 9,
-                "end": 11
-            }
-        ]
-    }
-]
+export const AiDiaryCorrect = {
+    "originalText": "오느른 날시가 흐려따. 오늘은날씨가 흐렸다.오늘은 날씨가 흐렸다.오늘은날씨가 흐렸다. 오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다.  오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다.  오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다.  오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다.  오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다.  오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다.  오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다.  오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다. 오늘은 날씨가 흐렸다. ",
+    "fullCorrectedText": "오늘 날씨가 흐렸어요.",
+    "reply": "오늘 날씨가 흐려서 기분이 조금 울적할 수도 있겠네요. 그래도 괜찮아요, 따뜻한 차 한 잔 마시면서 잠시 쉬어보는 건 어떠세요?",
+    "corrections": [
+        {
+            "incorrect": "느른",
+            "corrected": "늘",
+            "start": 1,
+            "end": 3
+        },
+        {
+            "incorrect": "시",
+            "corrected": "씨",
+            "start": 5,
+            "end": 6
+        },
+        {
+            "incorrect": "려따",
+            "corrected": "렸어요",
+            "start": 9,
+            "end": 11
+        },
+        {
+            "incorrect": "오늘은날씨가",
+            "corrected": "오늘은 날씨가",
+            "start": 13,
+            "end": 19,
+        },
+        {
+            "incorrect": "오늘은날씨가",
+            "corrected": "오늘은 날씨가",
+            "start": 36,
+            "end": 41,
+        },
+    ]
+}

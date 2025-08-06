@@ -8,5 +8,6 @@ import CustomBottomSheet from "./common/CustomBottomSheet";
 import Filtering from "./common/Filtering";
 import Post from "./common/Post";
 import Comment from "./common/Comment";
+import AiDiaryCorrection from './common/AiDiaryCorrection';
 
-export { WhiteButton, PinkButton, CustomHeader, CustomMiniHeader, TabHeader, Dropdown, CustomBottomSheet, Filtering, Post, Comment }
+export { WhiteButton, PinkButton, CustomHeader, CustomMiniHeader, TabHeader, Dropdown, CustomBottomSheet, Filtering, Post, Comment, AiDiaryCorrection }
