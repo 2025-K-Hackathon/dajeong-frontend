@@ -6,7 +6,7 @@ import { Colors } from '../../theme';
 import Clicked from '../../../assets/images/signup/clicked.png';
 import Unclicked from '../../../assets/images/signup/unclicked.png';
 
-const Dropdown = ({ contents }) => {
+const Dropdown = ({ contents, onSelect }) => {
     const [isVisible, setIsVisible] = useState(false); // 드롭다운 내용 보여지는지
     const [selectedContent, setSelectedContent] = useState(''); // 선택된 내용
 
@@ -17,6 +17,7 @@ const Dropdown = ({ contents }) => {
     const selectContent = (content) => {
         setSelectedContent(content);
         setIsVisible(false);
+        onSelect?.(content);
     };
 
     return (
@@ -134,6 +135,7 @@ const DropdownIcon = styled(Image)`
 
 Dropdown.propTypes = {
     contents: PropTypes.array.isRequired,
+    onSelect: PropTypes.func,
 }
 
 export default Dropdown

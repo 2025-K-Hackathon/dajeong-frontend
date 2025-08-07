@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { SafeAreaView, View, Text, TextInput } from 'react-native';
+import { SafeAreaView, View, Text, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import styled from 'styled-components';
 import { Colors } from '../theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CustomHeader, PinkButton } from '../components';
+import axiosInstance from './../utils/axiosInstance';
 
 const Signup1 = ({ navigation }) => {
     const insets = useSafeAreaInsets();
@@ -28,65 +29,74 @@ const Signup1 = ({ navigation }) => {
     }
 
     useEffect(() => {
+        console.log(name, id, password);
         if (name!=='' && id!=='' && password!=='') {
             setIsReady(true);
         } else {
             setIsReady(false);
         }
-    })
+    }, [name, id, password])
 
     return (
-    <>
-        <SafeAreaView>
-            <CustomHeader back={false}/>
-            <Wrapper>
-                <InputWrapper>
-                    <View>
-                        <Title>이름</Title>
-                        <StyledInput 
-                            value={name}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            returnKeyType="next"
-                            onChangeText={handleName}
-                            onSubmitEditing={() => IdRef.current.focus()}
-                        />
-                    </View>
-                    <View>
-                        <Title>아이디</Title>
-                        <StyledInput 
-                            value={id}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            returnKeyType="next"
-                            onChangeText={handleId}
-                            onSubmitEditing={() => passwordRef.current.focus()}
-                            ref={IdRef}
-                        />
-                    </View>
-                    <View>
-                        <Title>비밀번호</Title>
-                        <StyledInput 
-                            value={password}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            returnKeyType="done"
-                            onChangeText={handlePassword}
-                            ref={passwordRef}
-                        />
-                    </View>
-                </InputWrapper>
-            </Wrapper>
-        </SafeAreaView>
-        <PinkButtonWrapper paddingBottom={insets.bottom + 57}>
-            <PinkButton 
-                text="다음" 
-                onPress={() => navigation.navigate("Signup2")} 
-            />
-        </PinkButtonWrapper>
-    </>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <Layout>
+                <SafeAreaView>
+                    <CustomHeader back={false}/>
+                    <Wrapper>
+                        <InputWrapper>
+                            <View>
+                                <Title>이름</Title>
+                                <StyledInput 
+                                    value={name}
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    returnKeyType="next"
+                                    onChangeText={handleName}
+                                    onSubmitEditing={() => IdRef.current.focus()}
+                                />
+                            </View>
+                            <View>
+                                <Title>아이디</Title>
+                                <StyledInput 
+                                    value={id}
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    returnKeyType="next"
+                                    onChangeText={handleId}
+                                    onSubmitEditing={() => passwordRef.current.focus()}
+                                    ref={IdRef}
+                                />
+                            </View>
+                            <View>
+                                <Title>비밀번호</Title>
+                                <StyledInput 
+                                    value={password}
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    returnKeyType="done"
+                                    onChangeText={handlePassword}
+                                    ref={passwordRef}
+                                />
+                            </View>
+                        </InputWrapper>
+                    </Wrapper>
+                </SafeAreaView>
+                <PinkButtonWrapper paddingBottom={insets.bottom + 57}>
+                    <PinkButton 
+                        text="다음" 
+                        onPress={() => navigation.navigate("Signup2", { name, id, password })}
+                        disabled={!isReady} 
+                    />
+                </PinkButtonWrapper>
+            </Layout>
+        </TouchableWithoutFeedback>
     )
 }
+
+const Layout = styled.View`
+    background-color: #FFFFFF;
+    flex: 1;
+`
 
 const Wrapper = styled.View`
     padding: 0 25px;
