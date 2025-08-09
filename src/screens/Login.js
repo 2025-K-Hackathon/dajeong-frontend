@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, ImageBackground, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, ImageBackground, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import styled from 'styled-components';
 import { Colors } from '../theme';
 import Background from '../../assets/images/main/background.png';
 import Back from '../../assets/images/common/back.png';
 import logoBright from '../../assets/images/main/logo-bright.png';
 import { PinkButton } from '../components';
-import { getStatusBarHeight } from "react-native-status-bar-height"; 
+import { getStatusBarHeight } from "react-native-status-bar-height";
+import axiosInstance from './../utils/axiosInstance';
 
 const Login = ({ navigation }) => {
     const statusBarHeight = getStatusBarHeight();
@@ -22,6 +23,19 @@ const Login = ({ navigation }) => {
 
     const handlePassword = (password) => {
         setPassword(password);
+    }
+
+    const handleLogin = async () => {
+        try {
+            const response =  await axiosInstance.post('/api/users/login', {
+                username: id,
+                password
+            });
+            console.log('로그인 성공', response);
+        } catch(error) {
+            console.log('로그인 실패', error.response);
+            Alert.alert('아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해 주세요.');
+        }
     }
 
     useEffect(() => {
@@ -72,6 +86,9 @@ const Login = ({ navigation }) => {
                 text="로그인"
                 height={52}
                 disabled={!isReady}
+                shadow={true}
+                border={true}
+                onPress={handleLogin}
             />
         </Wrapper>
     )

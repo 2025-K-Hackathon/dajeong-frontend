@@ -39,7 +39,7 @@ const BottomTab = () => {
                     },
                     shadowOpacity: 0.25,
                     shadowRadius: 4,
-                    elevation: 4,
+                    elevation: 8,
                     backgroundColor: '#fff',
                     borderTopWidth: 0,
                     paddingTop: 10,
