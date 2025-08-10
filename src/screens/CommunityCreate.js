@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Alert, Platform } from 'react-native';
 import styled from 'styled-components';
 import { CustomHeader } from './../components';
@@ -6,8 +6,13 @@ import { Colors } from '../theme';
 import Photo from '../../assets/images/community/photo.png';
 import * as ImagePicker from 'expo-image-picker';
 import { launchImageLibraryAsync } from 'expo-image-picker';
+import axiosInstance from './../utils/axiosInstance';
 
 const CommunityCreate = ({ navigation }) => {
+    const [nationality, setNationality] = useState();
+    const [ageGroup, setAgeGroup] = useState();
+    const [region, setRegion] = useState();
+
     const [title, setTitle] = useState();
     const [imageName, setImageName] = useState();
     const [imageUri, setImageUri] = useState();
@@ -32,9 +37,56 @@ const CommunityCreate = ({ navigation }) => {
         }
     }
 
-    const submitPost = () => {
-        navigation.navigate('CommunityList')
+    const handleInformation = async () => {
+        try {
+            const response = await axiosInstance.get('/api/users/me');
+            console.log('내 정보 조회', response.data);
+            setNationality(response.data.nationality);
+            const age = response.data.age;
+            if (age < 30) setAgeGroup('TWENTIES');
+            else if (age < 40) setAgeGroup('THIRTIES');
+            else if (age < 50) setAgeGroup('FORTIES');
+            else if (age < 60) setAgeGroup('FIFTIES');
+            else if (age >= 60) setAgeGroup('SIXTIES_OVER');
+            else setAgeGroup('PRIVATE');
+            setRegion(response.data.region);
+        } catch(error) {
+            console.log('내 정보 조회 실패', error.response);
+        }
     }
+
+    const submitPost = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("title", title);
+            formData.append("content", content);
+            formData.append("nationality", nationality);
+            formData.append("region", region);
+            formData.append("ageGroup", ageGroup);
+            if (imageUri) {
+            const fileName = imageUri.split("/").pop();
+                const fileType = fileName.split(".").pop();
+                formData.append("images", {
+                    uri: imageUri,
+                    name: fileName,
+                    type: `image/${fileType}`,
+                });
+            }
+            const response = await axiosInstance.post('/api/posts', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            })
+            console.log('게시글 작성 성공', response.data);
+            navigation.navigate('CommunityDetail');
+        } catch(error) {
+            console.log('게시글 작성 실패', error.response);
+        }
+    }
+
+    useEffect(() => {
+        handleInformation();
+    }, [])
 
     return (
         <Layout>
