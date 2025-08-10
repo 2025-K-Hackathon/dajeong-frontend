@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginStack from './LoginStack';
 import BottomTab from './BottomTab';
 import axiosInstance from '../utils/axiosInstance';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Stack = createStackNavigator();
 
@@ -27,25 +28,27 @@ const MainStack = () => {
     }, [])
 
     return (
-        <Stack.Navigator>
-            { isLogin ? (
-                <Stack.Screen 
-                    name='BottomTab' 
-                    component={BottomTab} 
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-            ) : (
-                <Stack.Screen 
-                    name='LoginStack' 
-                    component={LoginStack} 
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-            )}
-        </Stack.Navigator>
+        <AuthContext.Provider value={{ isLogin, setIsLogin }}>
+            <Stack.Navigator>
+                { isLogin ? (
+                    <Stack.Screen 
+                        name='BottomTab' 
+                        component={BottomTab} 
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
+                ) : (
+                    <Stack.Screen 
+                        name='LoginStack' 
+                        component={LoginStack} 
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
+                )}
+            </Stack.Navigator>
+        </AuthContext.Provider>
     )
 }
 

@@ -8,8 +8,10 @@ import logoBright from '../../assets/images/main/logo-bright.png';
 import { PinkButton } from '../components';
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import axiosInstance from './../utils/axiosInstance';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Login = ({ navigation }) => {
+    const { setIsLogin } = useContext(AuthContext);
     const statusBarHeight = getStatusBarHeight();
     const [isReady, setIsReady] = useState(false);
     const [id, setId] = useState('');
@@ -32,6 +34,7 @@ const Login = ({ navigation }) => {
                 password
             });
             console.log('로그인 성공', response);
+            setIsLogin(true);
         } catch(error) {
             console.log('로그인 실패', error.response);
             Alert.alert('아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해 주세요.');

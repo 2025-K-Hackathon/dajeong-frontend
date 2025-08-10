@@ -47,6 +47,9 @@ const BottomTab = () => {
                 tabBarLabelStyle: {
                     fontSize: 8,
                     fontFamily: 'regular'
+                },
+                tabBarItemStyle: {
+                    height: 96,
                 }
             }}
             >

@@ -51,6 +51,9 @@ const CommunityDetail = () => {
                     backgroundColor: '#fff',
                     borderTopWidth: 0,
                     paddingTop: 10,
+                },
+                tabBarItemStyle: {
+                    height: 96,
                 }
             });
         };
