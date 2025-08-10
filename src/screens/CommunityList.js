@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, FlatList, Button, Text, Image, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import { Colors } from '../theme';
 import { CustomMiniHeader, Filtering, Post } from '../components';
 import { PostData } from '../constant/postData';
 import Plus from '../../assets/images/community/plus.png';
+import axiosInstance from './../utils/axiosInstance';
 
 const CommunityList = ({ navigation }) => {
     const [openDropdown, setOpenDropdown] = useState(null);
@@ -14,7 +15,7 @@ const CommunityList = ({ navigation }) => {
         age: null,
         region: null,
     });
-
+    const [posts, setPosts] = useState([]);
 
     const filters = {
         order: {
@@ -35,7 +36,6 @@ const CommunityList = ({ navigation }) => {
         },
     };
 
-    
     const filterWidths = {
         order: 75,
         country: 100,
@@ -47,6 +47,20 @@ const CommunityList = ({ navigation }) => {
         setSelectedValues((prev) => ({ ...prev, [key]: value }));
         setOpenDropdown(null);
     }
+
+    const handlePosts = async () => {
+        try {
+            const response = await axiosInstance.get('/api/posts');
+            console.log('게시글 조회', response.data);
+            setPosts(response.data)
+        } catch(error) {
+            console.log('게시글 조회', error.response);
+        }
+    }
+
+    useEffect(() => {
+        handlePosts();
+    }, [])
 
     return (
         <Layout>
@@ -68,7 +82,7 @@ const CommunityList = ({ navigation }) => {
                 ))}
             </FilterWrapper>
             <FlatList
-                data={PostData}
+                data={posts}
                 renderItem={({ item }) => (
                     <Post post={item} />
                 )}

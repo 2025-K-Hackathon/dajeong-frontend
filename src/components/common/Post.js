@@ -4,10 +4,15 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Like from '../../../assets/images/community/like.png';
 import Comment from '../../../assets/images/community/comment.png';
 import { useNavigation } from '@react-navigation/native';
+import { formatDistanceToNow } from 'date-fns';
+import { ko } from 'date-fns/locale';
 
 const Post = ({ post }) => {
     const navigation = useNavigation();
-
+    const getRelativeTime = (isoString) => {
+        return formatDistanceToNow(new Date(isoString), { addSuffix: true, locale: ko });
+    }
+    
     return (
         <Wrapper onPress={() => navigation.navigate("CommunityDetail")}>
             <Top>
@@ -15,9 +20,9 @@ const Post = ({ post }) => {
                     <Title>{post.title}</Title>
                     <Content>{post.content}</Content>
                 </Left>
-                {post.image!==null &&
+                {post.image && (
                     <PostImage src={post.image}/>
-                }
+                )}
             </Top>
             <Bottom>
                 <UserInfo>
@@ -25,7 +30,7 @@ const Post = ({ post }) => {
                     <UserInfoLine />
                     <BottomText>{post.nationality}</BottomText>
                     <UserInfoLine />
-                    <BottomText>1일전</BottomText>
+                    <BottomText>{getRelativeTime(post.createdAt)}</BottomText>
                 </UserInfo>
                 <PostInfo>
                     <PostInfoGroup>

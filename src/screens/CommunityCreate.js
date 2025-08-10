@@ -77,7 +77,7 @@ const CommunityCreate = ({ navigation }) => {
                     'Content-Type': 'multipart/form-data',
                 }
             })
-            console.log('게시글 작성 성공', response.data);
+            console.log('게시글 작성 성공', response);
             navigation.navigate('CommunityDetail');
         } catch(error) {
             console.log('게시글 작성 실패', error.response);

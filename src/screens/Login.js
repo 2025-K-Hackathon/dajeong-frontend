@@ -9,6 +9,7 @@ import { PinkButton } from '../components';
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import axiosInstance from './../utils/axiosInstance';
 import { AuthContext } from '../contexts/AuthContext';
+import { useContext } from 'react';
 
 const Login = ({ navigation }) => {
     const { setIsLogin } = useContext(AuthContext);
