@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Platform } from 'react-native';
 import styled from 'styled-components';
 import { CustomHeader } from './../components';
 import { Colors } from '../theme';
@@ -78,7 +78,8 @@ const CommunityCreate = ({ navigation }) => {
                 }
             })
             console.log('게시글 작성 성공', response);
-            navigation.navigate('CommunityDetail');
+            const postId = response.data.postId;
+            navigation.navigate('CommunityDetail', { postId: postId } );
         } catch(error) {
             console.log('게시글 작성 실패', error.response);
         }
@@ -95,6 +96,7 @@ const CommunityCreate = ({ navigation }) => {
                 text="글 작성" 
                 buttonText="게시하기"
                 onPress={submitPost}
+                onBackPress={() => navigation.navigate('CreateList')}
             />
             <Wrapper>
                 <TitleInput 

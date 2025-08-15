@@ -11,12 +11,31 @@ import Send from '../../assets/images/community/send.png';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Comments } from '../constant/commentData';
+import { formatDistanceToNow } from 'date-fns';
+import { ko } from 'date-fns/locale';
+import axiosInstance from '../utils/axiosInstance';
 
-const CommunityDetail = () => {
+const CommunityDetail = ({ route }) => {
     const navigation = useNavigation();
+    const { postId } = route.params;
+    const [post, setPost] = useState();
     const [isLiked, setIsLiked] = useState(false);
     const isFocused = useIsFocused();
     const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+    const getRelativeTime = (isoString) => {
+        return formatDistanceToNow(new Date(isoString), { addSuffix: false, locale: ko });
+    }
+
+    const handleDetail = async () => {
+        try {
+            const response = await axiosInstance.get(`/api/posts/${postId}/detail`);
+            console.log('게시글 내용', response.data);
+            setPost(response.data);
+        } catch(error) {
+            console.log('게시글 내용 조회 실패', error.response);
+        }
+    }
 
     useEffect(() => {
         const showSubscription = Keyboard.addListener('keyboardDidShow', (e) => {
@@ -59,6 +78,10 @@ const CommunityDetail = () => {
         };
     }, [isFocused]);
 
+    useEffect(() => {
+        handleDetail();
+    }, [])
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -66,54 +89,56 @@ const CommunityDetail = () => {
             style={{ flex: 1 }}
         >
             <Layout>
-                <CustomHeader type="text" text="글 상세" />
-                <ScrollView
-                    contentContainerStyle={{ paddingBottom: 96 }}
-                    keyboardShouldPersistTaps="handled"
-                >
-                    <TitleWrapper>
-                        <Title>{PostDetail.title}</Title>
-                        <WriterWrapper>
-                            <WriterText>{PostDetail.region}</WriterText>
-                            <Line />
-                            <WriterText>{PostDetail.nationality}</WriterText>
-                            <Line />
-                            <WriterText>2일전</WriterText>
-                        </WriterWrapper>
-                    </TitleWrapper>
-                    <Wrapper>
-                        <Content>{PostDetail.content}</Content>
-                        {PostDetail.image && <ContentImage src={PostDetail.image} />}
-                        <ReactionWrapper>
-                            <MyLikeWrapper>
-                                <Image source={isLiked ? Like : Unlike} />
-                                <MyLikeText>좋아요</MyLikeText>
-                            </MyLikeWrapper>
-                            <RowWrapper>
-                                <LikeCommentWrapper>
-                                    <Image source={Like} />
-                                    <LikeCommentText>{PostDetail.likeCount}</LikeCommentText>
-                                </LikeCommentWrapper>
-                                <LikeCommentWrapper>
-                                    <Image source={CommentIcon} />
-                                    <LikeCommentText>{PostDetail.commentCount}</LikeCommentText>
-                                </LikeCommentWrapper>
-                            </RowWrapper>
-                        </ReactionWrapper>
-                    </Wrapper>
-                    <DividingLine />
-                    <CommentWrapper>
-                        {Comments.map((comment, index) => (
-                        <Comment
-                            key={index}
-                            region={comment.region}
-                            nationality={comment.nationality}
-                            time={comment.time}
-                            content={comment.content}
-                        />
-                        ))}
-                    </CommentWrapper>
-                </ScrollView>
+                <CustomHeader type="text" text="글 상세" onBackPress={() => navigation.navigate('CommunityList')}/>
+                {post && (
+                    <ScrollView
+                        contentContainerStyle={{ paddingBottom: 96 }}
+                        keyboardShouldPersistTaps="handled"
+                    >
+                        <TitleWrapper>
+                            <Title>{post.title}</Title>
+                            <WriterWrapper>
+                                <WriterText>{post.region}</WriterText>
+                                <Line />
+                                <WriterText>{post.nationality}</WriterText>
+                                <Line />
+                                <WriterText>{getRelativeTime(post.createdAt)}</WriterText>
+                            </WriterWrapper>
+                        </TitleWrapper>
+                        <Wrapper>
+                            <Content>{post.content}</Content>
+                            {post.imageUrls.length>0 && <ContentImage src={post.imageUrls[0]} />}
+                            <ReactionWrapper>
+                                <MyLikeWrapper>
+                                    <Image source={isLiked ? Like : Unlike} />
+                                    <MyLikeText>좋아요</MyLikeText>
+                                </MyLikeWrapper>
+                                <RowWrapper>
+                                    <LikeCommentWrapper>
+                                        <Image source={Like} />
+                                        <LikeCommentText>{post.likeCount}</LikeCommentText>
+                                    </LikeCommentWrapper>
+                                    <LikeCommentWrapper>
+                                        <Image source={CommentIcon} />
+                                        <LikeCommentText>{post.commentCount}</LikeCommentText>
+                                    </LikeCommentWrapper>
+                                </RowWrapper>
+                            </ReactionWrapper>
+                        </Wrapper>
+                        <DividingLine />
+                        <CommentWrapper>
+                            {Comments.map((comment, index) => (
+                            <Comment
+                                key={index}
+                                region={comment.region}
+                                nationality={comment.nationality}
+                                time={comment.time}
+                                content={comment.content}
+                            />
+                            ))}
+                        </CommentWrapper>
+                    </ScrollView>
+                )}
                 {/* 댓글 입력창 */}
                 <CommentInputLayout style={{ position: 'absolute', bottom: keyboardHeight }}>
                     <CommentInputWrapper>

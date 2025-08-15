@@ -14,7 +14,7 @@ const Post = ({ post }) => {
     }
     
     return (
-        <Wrapper onPress={() => navigation.navigate("CommunityDetail")}>
+        <Wrapper onPress={() => navigation.navigate("CommunityDetail", { postId: post.id } )}>
             <Top>
                 <Left>
                     <Title>{post.title}</Title>
