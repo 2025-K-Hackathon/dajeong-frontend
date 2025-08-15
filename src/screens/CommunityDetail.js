@@ -10,7 +10,6 @@ import CommentIcon from '../../assets/images/community/comment.png';
 import Send from '../../assets/images/community/send.png';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { TextInput } from 'react-native-gesture-handler';
-import { Comments } from '../constant/commentData';
 import { formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import axiosInstance from '../utils/axiosInstance';
@@ -22,6 +21,8 @@ const CommunityDetail = ({ route }) => {
     const [isLiked, setIsLiked] = useState(false);
     const isFocused = useIsFocused();
     const [keyboardHeight, setKeyboardHeight] = useState(0);
+    const [comments, setComments] = useState([]);
+    const [content, setContent] = useState();
 
     const getRelativeTime = (isoString) => {
         return formatDistanceToNow(new Date(isoString), { addSuffix: false, locale: ko });
@@ -34,6 +35,29 @@ const CommunityDetail = ({ route }) => {
             setPost(response.data);
         } catch(error) {
             console.log('게시글 내용 조회 실패', error.response);
+        }
+    }
+
+    const handleCommentList = async () => {
+        try {
+            const response = await axiosInstance.get(`/api/posts/${postId}/comments`);
+            console.log('댓글 조회', response.data);
+            setComments(response.data);
+        } catch(error) {
+            console.log('댓글 조회 실패', error.response);
+        }
+    }
+
+    const handleComment = async () => {
+        try {
+            const response = await axiosInstance.post(`/api/posts/${postId}/comments`, {
+                content,
+            });
+            console.log('댓글 작성', response);
+            setContent('');
+            handleCommentList();
+        } catch(error) {
+            console.log('댓글 작성 실패', error.response);
         }
     }
 
@@ -80,6 +104,7 @@ const CommunityDetail = ({ route }) => {
 
     useEffect(() => {
         handleDetail();
+        handleCommentList();
     }, [])
 
     return (
@@ -127,12 +152,12 @@ const CommunityDetail = ({ route }) => {
                         </Wrapper>
                         <DividingLine />
                         <CommentWrapper>
-                            {Comments.map((comment, index) => (
+                            {comments.map((comment, index) => (
                             <Comment
                                 key={index}
                                 region={comment.region}
                                 nationality={comment.nationality}
-                                time={comment.time}
+                                time={getRelativeTime(comment.createdAt)}
                                 content={comment.content}
                             />
                             ))}
@@ -142,10 +167,21 @@ const CommunityDetail = ({ route }) => {
                 {/* 댓글 입력창 */}
                 <CommentInputLayout style={{ position: 'absolute', bottom: keyboardHeight }}>
                     <CommentInputWrapper>
-                        <CommentInput placeholder="댓글을 남겨보세요!" />
-                            <TouchableOpacity>
-                            <Image source={Send} />
-                        </TouchableOpacity>
+                        <CommentInput 
+                            placeholder="댓글을 남겨보세요!" 
+                            value={content} 
+                            onChangeText={setContent}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                        />
+                            <TouchableOpacity 
+                                onPress={() => {
+                                    Keyboard.dismiss();
+                                    if (content) handleComment();
+                                }}
+                            >
+                                <CommentImage source={Send} />
+                            </TouchableOpacity>
                     </CommentInputWrapper>
                 </CommentInputLayout>
             </Layout>
@@ -303,6 +339,10 @@ const CommentInput = styled(TextInput)`
     line-height: 22px;
     width: 100%;
     padding: 0 15px;
+`
+
+const CommentImage = styled(Image)`
+    margin-right: 10px;
 `
 
 export default CommunityDetail
