@@ -1,43 +1,75 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { CustomHeader } from './../components';
-import { Colors } from '../theme';
-import Hospital from '../../assets/images/home/hospital.png';
-import { CardContent } from './../constant/cardContentData';
 import Plus from '../../assets/images/livingInfo/plus.png';
 import Sound from '../../assets/images/livingInfo/sound.png';
+import { Audio } from 'expo-av';
+import axiosInstance from './../utils/axiosInstance';
 
-const CardDetail = ({ navigation }) => {
+const CardDetail = ({ navigation, route }) => {
+    const { type, image, displayName, english, page } = route.params;
+
+    const [conversations, setConversations] = useState();
+
+    const handleConversation = async () => {
+        try {
+            const response = await axiosInstance.get(`/api/conversations/${type}`);
+            console.log('회화 문장', response.data);
+            setConversations(response.data);
+        } catch(error) {
+            if (error.status===404) {
+                console.log('회화 문장이 존재하지 않습니다.');
+            } else {
+                console.log('회화 문장 가져오기 실패', error.response);
+            }
+        }
+    }
+
+    const handleTts = async (url) => {
+        try {
+            const { sound } = await Audio.Sound.createAsync(
+                { uri: url },
+                { shouldPlay: true }
+            );
+        } catch (error) {
+            console.log('tts 재생 실패', error);
+        }
+    }
+
+    useEffect(() => {
+        handleConversation();
+    }, [])
+
     return (
         <Layout>
-            <CustomHeader type="text" text="회화 카드" />
+            <CustomHeader type="text" text="회화 카드" onBackPress={() => navigation.navigate(page==='home' ? 'Home' : 'CardList')}/>
             <ScrollView
                 keyboardShouldPersistTaps="handled"
             >
                 <Wrapper>
                     <CardWrapper>
-                        <Icon source={Hospital} />
+                        <Icon source={{uri: image}} />
                         <TextWrapper>
-                            <Title>병원 접수</Title>
-                            <Foreign>Hospital Registration</Foreign>
+                            <Title>{displayName}</Title>
+                            <Foreign>{english}</Foreign>
                         </TextWrapper>
-                        {CardContent.map((card, index) => (
+                        {conversations && conversations.map((conversation, index) => (
                             <ConversationWrapper
                                 key={index}
-                                last={index === CardContent.length - 1}
+                                last={index === conversation.length - 1}
                             >
                                 <ConversationTextWrapper>
-                                    <Korean>{card.translatedText}</Korean>
-                                    <Foreign>{card.inputText}</Foreign>
+                                    <Korean>{conversation.translatedText}</Korean>
+                                    <Foreign>{conversation.inputText}</Foreign>
                                 </ConversationTextWrapper>
-                                <SoundWrapper>
+                                <SoundWrapper onPress={() => handleTts(conversation.ttsUrl)}>
                                     <Image source={Sound}/>
                                 </SoundWrapper>
                             </ConversationWrapper>
                         ))}
                     </CardWrapper>
-                    <PlusWrapper onPress={() => navigation.navigate('CardCreate')}>
+                    <PlusWrapper onPress={() => navigation.navigate('CardCreate', { type, image, displayName, english, page })}>
                         <Image source={Plus} />
                     </PlusWrapper>
                 </Wrapper>

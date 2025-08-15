@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { TabHeader } from './../components';
-import { Card } from '../constant/cardData';
+import { Conversation } from '../constant/conversationData';
 
 const CardList = ({ navigation }) => {
     return (
         <Layout>
             <TabHeader />
             <FlatList
-                data={Card}
+                data={Conversation}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item, index  }) => (
-                    <CardWrapper onPress={() => navigation.navigate('CardDetail')}>
+                    <CardWrapper onPress={() => navigation.navigate('CardDetail', {image: item.iconUrl, type: item.type, displayName: item.displayName, english: item.english, page: 'list' })}>
                         <ImageWrapper>
-                            <Icon source={item.iconUrl} />
+                            <Icon source={{uri: item.iconUrl}} />
                         </ImageWrapper>
                         <TextWrapper>
                             <Title>{item.displayName}</Title>

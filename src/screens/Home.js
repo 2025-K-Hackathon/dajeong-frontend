@@ -73,12 +73,17 @@ const Home = ({ navigation }) => {
                 <FlatList
                     data={Conversation}
                     renderItem={({item, index}) => (
-                        <ConversationCard key={index}>
+                        <ConversationCard 
+                            key={index} 
+                            onPress={
+                                () => navigation.navigate('CardDetail', 
+                                {image: item.iconUrl, type: item.type, displayName: item.displayName, english: item.english, page: 'home' })}
+                        >
                             <ImageBackground>
-                                <CardImage source={item.image}/>
+                                <CardImage source={{uri: item.iconUrl}}/>
                             </ImageBackground>
                             <CardTextWrapper>
-                                <CardText>{item.title}</CardText>
+                                <CardText>{item.displayName}</CardText>
                             </CardTextWrapper>
                         </ConversationCard>
                     )}

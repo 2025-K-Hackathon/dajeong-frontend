@@ -8,14 +8,14 @@ import { useNavigation } from '@react-navigation/native';
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import { Colors } from './../../theme';
 
-const CustomHeader = ({ type="image", text="", back=true, buttonText, onPress }) => {
+const CustomHeader = ({ type="image", text="", back=true, buttonText, onPress, onBackPress }) => {
     const statusBarHeight = getStatusBarHeight();
     const navigation = useNavigation();
 
     return (
         <Wrapper marginTop={statusBarHeight+10}>
             { back && (
-                <BackWrapper onPress={() => navigation.goBack()} >
+                <BackWrapper onPress={onBackPress ? onBackPress : () => navigation.goBack()} >
                     <Image source={Back} />
                 </BackWrapper>
             )}
@@ -85,6 +85,7 @@ CustomHeader.propTypes = {
     button: PropTypes.bool,
     buttonText: PropTypes.string,
     onPress: PropTypes.func,
+    onBackPress: PropTypes.func,
 }
 
 export default CustomHeader

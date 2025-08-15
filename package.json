@@ -33,7 +33,8 @@
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.13.1",
     "react-native-status-bar-height": "^2.6.0",
-    "styled-components": "^6.1.19"
+    "styled-components": "^6.1.19",
+    "expo-av": "~15.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

@@ -1,7 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from 'react-native';
-import { Home, AiDiary, Mypage } from '../screens';
+import { AiDiary, Mypage } from '../screens';
+import HomeStack from './HomeStack';
 import LivingInfoStack from './LivingInfoStack';
 import CommmunityStack from './CommunityStack';
 
@@ -25,7 +26,7 @@ const TabIcon = ({ source, size }) => {
 const BottomTab = () => {
     return (
         <Tab.Navigator
-            initialRouteName='Home'
+            initialRouteName='HomeStack'
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: '#FF7E94',
@@ -88,8 +89,8 @@ const BottomTab = () => {
                 }}
             />
             <Tab.Screen 
-                name='Home' 
-                component={Home} 
+                name='HomeStack' 
+                component={HomeStack} 
                 options={{
                     title: '홈',
                     tabBarIcon: ({ focused }) => (
