@@ -39,6 +39,7 @@ const Wrapper = styled.View`
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #FFFFFF;
 `
 
 const Logo = styled(Image)`

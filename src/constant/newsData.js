@@ -1,5 +1,7 @@
 export const News = [
-    'https://cdn.pixabay.com/photo/2017/04/08/12/59/girlfriends-2213259_1280.jpg',
-    'https://cdn.pixabay.com/photo/2017/04/08/12/59/girlfriends-2213259_1280.jpg',
-    'https://cdn.pixabay.com/photo/2017/04/08/12/59/girlfriends-2213259_1280.jpg',
+    require('../../assets/images/livingInfo/family1.png'),
+    require('../../assets/images/livingInfo/family2.png'),
+    require('../../assets/images/livingInfo/family3.png'),
+    require('../../assets/images/livingInfo/family4.png'),
+    require('../../assets/images/livingInfo/family5.png'),
 ]

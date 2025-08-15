@@ -3,8 +3,9 @@ import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import styled from 'styled-components';
 import { TabHeader } from './../components';
 import { Policy } from '../constant/policyData';
-import CardNews1 from '../../assets/images/home/card-news1.png';
-import CardNews2 from '../../assets/images/home/card-news2.png';
+import CardNews1 from '../../assets/images/livingInfo/family1.png';
+import CardNews2 from '../../assets/images/livingInfo/education1.png';
+import CardNews3 from '../../assets/images/livingInfo/food1.png';
 
 const Recommend = ({ navigation }) => {
     return (
@@ -34,11 +35,11 @@ const Recommend = ({ navigation }) => {
                         <CardWrapper onPress={() => navigation.navigate('NewsDetail')}>
                             <CardImage source={CardNews1} resizeMode="cover"/>
                         </CardWrapper>
-                        <CardWrapper>
-                            <CardImage source={CardNews1} resizeMode="cover"/>
-                        </CardWrapper>
-                        <CardWrapper>
+                        <CardWrapper onPress={() => navigation.navigate('NewsDetail')}>
                             <CardImage source={CardNews2} resizeMode="cover"/>
+                        </CardWrapper>
+                        <CardWrapper onPress={() => navigation.navigate('NewsDetail')}>
+                            <CardImage source={CardNews3} resizeMode="cover"/>
                         </CardWrapper>
                     </CardRow>
                 </CardListWraper>

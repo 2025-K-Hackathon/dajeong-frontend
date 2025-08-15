@@ -6,34 +6,36 @@ import { News } from '../constant/newsData';
 
 const NewsDetail = () => {
     return (
-        <View>
+        <Layout>
             <CustomHeader type="text" text="일상 카드뉴스"/>
             <Wrapper>
                 <FlatList
                     data={News}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item, index  }) => (
-                        <ImageWrapper source={{ uri: item }} />
+                    renderItem={({ item, index }) => (
+                        <ImageWrapper key={index} source={item} resizeMode='contain'/>
                     )}
                     contentContainerStyle={{
-                        paddingHorizontal: 33,
-                        paddingBottom: 50,
+                        paddingHorizontal: 25,
+                        paddingBottom: 80,
                     }}
                 />
             </Wrapper>
-        </View>
+        </Layout>
     )
 }
 
-const Wrapper = styled.View`
-    padding-bottom: 96px;
-    margin-top: 10px;
+const Layout = styled.View`
     background-color: #FFFFFF;
+    flex: 1;
+`
+
+const Wrapper = styled.View`
+    margin-top: 10px;
 `
 
 const ImageWrapper = styled(Image)`
     width: 100%;
-    aspect-ratio: 1;
     margin-bottom: 5px;
 `
 
