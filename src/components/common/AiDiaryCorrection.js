@@ -22,8 +22,8 @@ const AiDiaryCorrection = ({ originalText, corrections }) => {
 
         renderedText.push(
             <CorrectionWrapper key={`text-${index}-correction`}>
-                <IncorrectText>{incorrect}</IncorrectText>
                 <CorrectedText>{corrected}</CorrectedText>
+                <IncorrectText>{incorrect}</IncorrectText>
             </CorrectionWrapper>
         )
 
@@ -54,13 +54,13 @@ const CorrectionWrapper = styled.View`
     align-items: center;
 `
 
-const IncorrectText = styled.Text`
+const CorrectedText = styled.Text`
     font-size: 13px;
     font-family: 'bold';
     color: #7F7F7F;
 `
 
-const CorrectedText = styled.Text`
+const IncorrectText = styled.Text`
     color: ${Colors.main};
     font-size: 15px;
     font-family: 'medium';
