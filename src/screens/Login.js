@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, ImageBackground, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, ImageBackground, Image, TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { Colors } from '../theme';
 import Background from '../../assets/images/main/background.png';
 import Back from '../../assets/images/common/back.png';
 import logoBright from '../../assets/images/main/logo-bright.png';
-import { PinkButton } from '../components';
+import { PinkButton, Modal } from '../components';
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import axiosInstance from './../utils/axiosInstance';
 import { AuthContext } from '../contexts/AuthContext';
@@ -17,6 +17,7 @@ const Login = ({ navigation }) => {
     const [isReady, setIsReady] = useState(false);
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
+    const [modal, setModal] = useState(false);
 
     const passwordRef = useRef(null);
 
@@ -37,8 +38,8 @@ const Login = ({ navigation }) => {
             console.log('로그인 성공', response);
             setIsLogin(true);
         } catch(error) {
-            console.log('로그인 실패', error.response);
-            Alert.alert('아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해 주세요.');
+            console.log('로그인 실패', error);
+            setModal(true);
         }
     }
 
@@ -63,7 +64,7 @@ const Login = ({ navigation }) => {
                 </LogoWrapper>
             </Header>
             <InputWrapper>
-                <View>
+                <CategoryWrapper>
                     <Title>아이디</Title>
                     <StyledInput 
                         value={id}
@@ -73,8 +74,8 @@ const Login = ({ navigation }) => {
                         onChangeText={handleId}
                         onSubmitEditing={() => passwordRef.current.focus()}
                     />
-                </View>
-                <View>
+                </CategoryWrapper>
+                <CategoryWrapper>
                     <Title>비밀번호</Title>
                     <StyledInput 
                         value={password}
@@ -84,7 +85,7 @@ const Login = ({ navigation }) => {
                         onChangeText={handlePassword}
                         ref={passwordRef}
                     />
-                </View>
+                </CategoryWrapper>
             </InputWrapper>
             <PinkButton 
                 text="로그인"
@@ -94,6 +95,13 @@ const Login = ({ navigation }) => {
                 border={true}
                 onPress={handleLogin}
             />
+            {modal && (
+                <Modal
+                    text='아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해 주세요.'
+                    buttonText='확인'
+                    onPress={()=>setModal(false)}
+                />
+            )}
         </Wrapper>
     )
 }
@@ -134,8 +142,15 @@ const Desc = styled.Text`
 
 const InputWrapper = styled.View`
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 9px;
     margin-bottom: 29px;
+`
+
+const CategoryWrapper = styled.View`
+    width: 100%;
+    display: flex;
 `
 
 const Title = styled.Text`
