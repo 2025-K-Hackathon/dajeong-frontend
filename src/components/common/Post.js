@@ -20,8 +20,8 @@ const Post = ({ post }) => {
                     <Title>{post.title}</Title>
                     <Content>{post.content}</Content>
                 </Left>
-                {post.image && (
-                    <PostImage src={post.image}/>
+                {post.imageUrls.length>0 && (
+                    <PostImage source={{uri: post.imageUrls[0]}}/>
                 )}
             </Top>
             <Bottom>

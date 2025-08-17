@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Platform, KeyboardAvoidingView } from 'react-native';
 import styled from 'styled-components';
 import { CustomHeader } from './../components';
 import { Colors } from '../theme';
@@ -90,13 +90,17 @@ const CommunityCreate = ({ navigation }) => {
     }, [])
 
     return (
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={{ flex: 1 }}
+        >
         <Layout>
             <CustomHeader 
                 type="text" 
                 text="글 작성" 
                 buttonText="게시하기"
                 onPress={submitPost}
-                onBackPress={() => navigation.navigate('CreateList')}
+                onBackPress={() => navigation.navigate('CommunityList')}
             />
             <Wrapper>
                 <TitleInput 
@@ -133,6 +137,8 @@ const CommunityCreate = ({ navigation }) => {
                 />
             </Wrapper>
         </Layout>
+
+        </KeyboardAvoidingView>
     )
 }
 

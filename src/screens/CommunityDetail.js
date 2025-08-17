@@ -23,9 +23,21 @@ const CommunityDetail = ({ route }) => {
     const [keyboardHeight, setKeyboardHeight] = useState(0);
     const [comments, setComments] = useState([]);
     const [content, setContent] = useState();
+    const [userId, setUserId] = useState();
+    const [isAuthor, setIsAuthor] = useState(false);
 
     const getRelativeTime = (isoString) => {
         return formatDistanceToNow(new Date(isoString), { addSuffix: false, locale: ko });
+    }
+
+    const handleUserId = async () => {
+        try {
+            const response = await axiosInstance.get('/api/users/me');
+            setUserId(response.data.id);
+            console.log('내 id', response.data.id);
+        } catch(error) {
+            console.log('내 id 조회 실패', error.response);
+        }
     }
 
     const handleDetail = async () => {
@@ -33,6 +45,7 @@ const CommunityDetail = ({ route }) => {
             const response = await axiosInstance.get(`/api/posts/${postId}/detail`);
             console.log('게시글 내용', response.data);
             setPost(response.data);
+            setIsLiked(response.data.likedByCurrentUser);
         } catch(error) {
             console.log('게시글 내용 조회 실패', error.response);
         }
@@ -102,10 +115,35 @@ const CommunityDetail = ({ route }) => {
         };
     }, [isFocused]);
 
+    const handleLike = async () => {
+        try {
+            const response = await axiosInstance.post(`/api/posts/${postId}/like`);
+            console.log('좋아요 성공', response);
+            setIsLiked(true);
+        } catch(error) {
+            console.log('좋아요 실패', error.response);
+            setIsLiked(false);
+        }
+    }
+
     useEffect(() => {
-        handleDetail();
-        handleCommentList();
+        const init = async () => {
+            await handleUserId();
+            await handleDetail();
+            await handleCommentList();
+        }
+        init();
     }, [])
+
+    useEffect(() => {
+        if (post && userId !== undefined) {
+            if (post.authorId === Number(userId)) {
+                setIsAuthor(true);
+            } else {
+                setIsAuthor(false);
+            }
+        }
+    }, [post, userId]);
 
     return (
         <KeyboardAvoidingView
@@ -114,7 +152,17 @@ const CommunityDetail = ({ route }) => {
             style={{ flex: 1 }}
         >
             <Layout>
-                <CustomHeader type="text" text="글 상세" onBackPress={() => navigation.navigate('CommunityList')}/>
+                <CustomHeader 
+                    type="text" 
+                    text="글 상세" 
+                    onBackPress={() => navigation.navigate('CommunityList')}
+                    {...(isAuthor && {
+                        buttonText: '삭제하기',
+                        buttonColor: '#4D4D4D',
+                        buttonBackgroundColor: '#FFFFFF',
+                        onPress: () => {},
+                    })}
+                />
                 {post && (
                     <ScrollView
                         contentContainerStyle={{ paddingBottom: 96 }}
@@ -132,9 +180,9 @@ const CommunityDetail = ({ route }) => {
                         </TitleWrapper>
                         <Wrapper>
                             <Content>{post.content}</Content>
-                            {post.imageUrls.length>0 && <ContentImage src={post.imageUrls[0]} />}
+                            {post.imageUrls.length>0 && <ContentImage source={{uri: post.imageUrls[0]}} />}
                             <ReactionWrapper>
-                                <MyLikeWrapper>
+                                <MyLikeWrapper onPress={!isLiked && handleLike}>
                                     <Image source={isLiked ? Like : Unlike} />
                                     <MyLikeText>좋아요</MyLikeText>
                                 </MyLikeWrapper>
