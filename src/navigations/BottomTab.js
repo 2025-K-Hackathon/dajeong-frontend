@@ -46,8 +46,8 @@ const BottomTab = () => {
                     paddingTop: 10,
                 },
                 tabBarLabelStyle: {
-                    fontSize: 8,
-                    fontFamily: 'regular'
+                    fontSize: 9,
+                    fontFamily: 'medium'
                 },
                 tabBarItemStyle: {
                     height: 96,

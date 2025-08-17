@@ -16,6 +16,7 @@ import axiosInstance from '../utils/axiosInstance';
 
 const CommunityDetail = ({ route }) => {
     const navigation = useNavigation();
+    const scrollRef = React.useRef();
     const { postId } = route.params;
     const [post, setPost] = useState();
     const [isLiked, setIsLiked] = useState(false);
@@ -52,6 +53,17 @@ const CommunityDetail = ({ route }) => {
         }
     }
 
+    const handleDelete = async () => {
+        try {
+            const response = await axiosInstance.delete(`/api/posts/${postId}`);
+            console.log('게시글 삭제', response);
+            navigation.navigate('CommunityList');
+        } catch(error) {
+            console.log('게시글 삭제 실패', error.response);
+            navigation.navigate('CommunityList');
+        }
+    }
+
     const handleCommentList = async () => {
         try {
             const response = await axiosInstance.get(`/api/posts/${postId}/comments`);
@@ -70,6 +82,9 @@ const CommunityDetail = ({ route }) => {
             console.log('댓글 작성', response);
             setContent('');
             handleCommentList();
+            setTimeout(() => {
+                scrollRef.current?.scrollToEnd({ animated: true });
+            }, 100);
         } catch(error) {
             console.log('댓글 작성 실패', error.response);
         }
@@ -161,13 +176,14 @@ const CommunityDetail = ({ route }) => {
                         buttonText: '삭제하기',
                         buttonColor: '#4D4D4D',
                         buttonBackgroundColor: '#FFFFFF',
-                        onPress: () => {},
+                        onPress: handleDelete,
                     })}
                 />
                 {post && (
                     <ScrollView
                         contentContainerStyle={{ paddingBottom: 96 }}
                         keyboardShouldPersistTaps="handled"
+                        ref={scrollRef}
                     >
                         <TitleWrapper>
                             <Title>{post.title}</Title>
@@ -359,6 +375,7 @@ const CommentInputLayout = styled.View`
     height: 96px;
     width: 100%;
     padding: 0 15px;
+    margin-bottom: 3px;
     /* 그림자 */
     shadow-color: rgba(0, 0, 0, 1);
     shadow-offset: {
