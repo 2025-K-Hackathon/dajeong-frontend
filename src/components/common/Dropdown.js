@@ -42,7 +42,11 @@ const Dropdown = ({ contents, onSelect }) => {
             {isVisible && (
                 <DropdownList>
                     {contents.map((content, index) => (
-                        <DropdownItem key={index} onPress={() => selectContent(content)}>
+                        <DropdownItem 
+                            key={index} 
+                            onPress={() => selectContent(content)}
+                            isLast={index === contents.length - 1}
+                        >
                             <ContentRow>
                                 <ContentName>{content.name}</ContentName>
                                 {content.english && (
@@ -95,7 +99,7 @@ const DropdownList = styled.View`
 `
 
 const DropdownItem = styled.TouchableOpacity`
-    border-bottom-width: 1px;
+    border-bottom-width: ${({ isLast }) => (isLast ? 0 : 1)}px;
     border-bottom-color: #E2DFDF;
     height: 43px;
     display: flex;
