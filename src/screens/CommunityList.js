@@ -3,7 +3,6 @@ import { View, FlatList, Button, Text, Image, TouchableOpacity } from 'react-nat
 import styled from 'styled-components/native';
 import { Colors } from '../theme';
 import { CustomMiniHeader, Filtering, Post } from '../components';
-import { PostData } from '../constant/postData';
 import Plus from '../../assets/images/community/plus.png';
 import axiosInstance from './../utils/axiosInstance';
 
@@ -50,7 +49,45 @@ const CommunityList = ({ navigation }) => {
 
     const handlePosts = async () => {
         try {
-            const response = await axiosInstance.get('/api/posts');
+            const orderMap = {
+                '최신순': 'recent',
+                '인기순': 'popular'
+            };
+
+            const nationalityMap = {
+                '베트남': 'VIETNAM',
+                '중국': 'CHINA',
+                '필리핀': 'PHILIPPINES',
+                '태국': 'THAILAND',
+                '인도네시아': 'INDONESIA',
+                '기타': 'ETC'
+            };
+
+            const ageMap = {
+                '20대': 'TWENTIES',
+                '30대': 'THIRTIES',
+                '40대': 'FORTIES',
+                '50대': 'FIFTIES',
+                '60대': 'SIXTIES_OVER'
+            };
+
+            const regionMap = {
+                '수도권': 'CAPITAL',
+                '충청도': 'CHUNGCHEONG',
+                '강원도': 'GANGWON',
+                '경상도': 'GYEONGSANG',
+                '전라도': 'JEOLLA',
+                '제주도': 'JEJU'
+            };
+
+            const params = {
+                ...(selectedValues.order && { sort: orderMap[selectedValues.order] }),
+                ...(selectedValues.country && selectedValues.country !== '전체' && { nationality: nationalityMap[selectedValues.country] }),
+                ...(selectedValues.age && selectedValues.age !== '전체' && { ageGroup: ageMap[selectedValues.age] }),
+                ...(selectedValues.region && selectedValues.region !== '전체' && { region: regionMap[selectedValues.region] }),
+            }
+
+            const response = await axiosInstance.get('/api/posts', {params});
             console.log('게시글 조회', response.data);
             setPosts(response.data)
         } catch(error) {
@@ -60,7 +97,7 @@ const CommunityList = ({ navigation }) => {
 
     useEffect(() => {
         handlePosts();
-    }, [])
+    }, [selectedValues])
 
     return (
         <Layout>
@@ -99,7 +136,7 @@ const CommunityList = ({ navigation }) => {
 
 const Layout = styled.View`
     background-color: #FFFFFF;
-    padding-bottom: 130px;
+    flex: 1;
 `
 
 const Wrapper = styled.View`
@@ -129,7 +166,7 @@ const WritingButton = styled(TouchableOpacity)`
     background-color: ${Colors.main};
     position: absolute;
     right: 15px;
-    bottom: 140;
+    bottom: 8px;
 `
 
 const WritingButtonText = styled.Text`

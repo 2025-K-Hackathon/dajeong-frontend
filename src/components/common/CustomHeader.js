@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import { Colors } from './../../theme';
 
-const CustomHeader = ({ type="image", text="", back=true, buttonText, onPress, onBackPress }) => {
+const CustomHeader = ({ type="image", text="", back=true, buttonText, onPress, onBackPress, buttonColor, buttonBackgroundColor }) => {
     const statusBarHeight = getStatusBarHeight();
     const navigation = useNavigation();
 
@@ -24,8 +24,8 @@ const CustomHeader = ({ type="image", text="", back=true, buttonText, onPress, o
                 : <Title>{text}</Title>
             }
             {buttonText && (
-                <ButtonWrapper onPress={onPress}>
-                    <ButtonText>{buttonText}</ButtonText>
+                <ButtonWrapper onPress={onPress} buttonBackgroundColor={buttonBackgroundColor}>
+                    <ButtonText buttonColor={buttonColor}>{buttonText}</ButtonText>
                 </ButtonWrapper>
             )}
         </Wrapper>
@@ -63,7 +63,7 @@ const BackWrapper = styled(TouchableOpacity)`
 const ButtonWrapper = styled(TouchableOpacity)`
     width: 85px;
     height: 31px;
-    background-color: ${Colors.main};
+    background-color: ${(props) => props.buttonBackgroundColor ? props.buttonBackgroundColor : `${Colors.main}`};
     border-radius: 100px;
     display: flex;
     align-items: center;
@@ -73,7 +73,7 @@ const ButtonWrapper = styled(TouchableOpacity)`
 `
 
 const ButtonText = styled.Text`
-    color: #FFFFFF;
+    color: ${(props) => props.buttonColor ? props.buttonColor : '#FFFFFF'};
     font-family: 'medium';
     font-size: 15px;
     line-height: 22px;
@@ -87,6 +87,8 @@ CustomHeader.propTypes = {
     buttonText: PropTypes.string,
     onPress: PropTypes.func,
     onBackPress: PropTypes.func,
+    buttonColor: PropTypes.string,
+    buttonBackgroundColor: PropTypes.string,
 }
 
 export default CustomHeader
