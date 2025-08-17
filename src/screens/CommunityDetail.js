@@ -27,7 +27,8 @@ const CommunityDetail = ({ route }) => {
     const [isAuthor, setIsAuthor] = useState(false);
 
     const getRelativeTime = (isoString) => {
-        return formatDistanceToNow(new Date(isoString), { addSuffix: false, locale: ko });
+        const cleanedIso = isoString.split('.')[0] + 'Z';
+        return formatDistanceToNow(new Date(cleanedIso), { addSuffix: true, locale: ko });
     }
 
     const handleUserId = async () => {

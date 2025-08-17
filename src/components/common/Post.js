@@ -9,8 +9,10 @@ import { ko } from 'date-fns/locale';
 
 const Post = ({ post }) => {
     const navigation = useNavigation();
+    
     const getRelativeTime = (isoString) => {
-        return formatDistanceToNow(new Date(isoString), { addSuffix: true, locale: ko });
+        const cleanedIso = isoString.split('.')[0] + 'Z';
+        return formatDistanceToNow(new Date(cleanedIso), { addSuffix: true, locale: ko });
     }
     
     return (
