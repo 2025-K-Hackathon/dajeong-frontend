@@ -1,27 +1,47 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Image, Linking } from 'react-native';
 import styled from 'styled-components';
 import { TabHeader } from './../components';
 import { Policy } from '../constant/policyData';
 import CardNews1 from '../../assets/images/livingInfo/family1.png';
 import CardNews2 from '../../assets/images/livingInfo/education1.png';
 import CardNews3 from '../../assets/images/livingInfo/food1.png';
+import axiosInstance from '../utils/axiosInstance';
 
 const Recommend = ({ navigation }) => {
+    const [policy, setPolicy] = useState();
+
+    const handlePolicy = async () => {
+        try {
+            const response = await axiosInstance.get('/api/policy/recommendations/latest');
+            console.log('추천 정책', response);
+            setPolicy(response.data.source_documents);
+        } catch(error) {
+            console.log('추천 정책 가져오기 실패', error.response);
+        }
+    }
+
+    useEffect(() => {
+        handlePolicy();
+    }, [])
+
+
     return (
         <Layout>
             <TabHeader />
             <ScrollWrapper>
                 <Wrapper>
                     <PolicySectionTitle>추천 정책</PolicySectionTitle>
-                    <PreviewContentWrapper>
-                            {Policy.map((policy, index) => (
-                                <PolicyWrapper key={index}>
-                                    <PolicyTitle>{policy.title}</PolicyTitle>
-                                    <PolicyDate>{policy.date}</PolicyDate>
+                    {policy && (
+                        <PreviewContentWrapper>
+                            {policy.map((item, index) => (
+                                <PolicyWrapper key={index} onPress={() => Linking.openURL(item.url)}>
+                                    <PolicyTitle numberOfLines={1} ellipsizeMode="tail">{item.title}</PolicyTitle>
+                                    <PolicyDate>{item.date.split('-').join('.')}</PolicyDate>
                                 </PolicyWrapper>
                             ))}
-                    </PreviewContentWrapper>
+                        </PreviewContentWrapper>
+                    )}
                 </Wrapper>
                 <DividingLine />
                 <Wrapper>

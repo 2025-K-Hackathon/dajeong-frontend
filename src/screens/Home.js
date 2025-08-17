@@ -1,22 +1,48 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, FlatList }  from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, TouchableOpacity, FlatList, Linking }  from 'react-native';
 import styled from 'styled-components';
 import { Colors } from './../theme';
 import MiniBright from '../../assets/images/main/mini-bright.png';
 import Banner from '../../assets/images/main/banner.png';
 import Arrow from '../../assets/images/home/arrow.png';
 import Next from '../../assets/images/home/next.png';
-import { Policy } from '../constant/policyData';
 import CardNews1 from '../../assets/images/home/card-news1.png';
 import CardNews2 from '../../assets/images/home/card-news2.png';
 import { Conversation } from './../constant/conversationData';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
+import axiosInstance from '../utils/axiosInstance';
 
 const Home = ({ navigation }) => {
     const statusBarHeight = getStatusBarHeight();
-    const [name, setName] = useState('사용자');
+    const [name, setName] = useState('');
     const [previewType, setPreviewType] = useState('policy'); // policy와 news 둘 중 하나
+    const [policy, setPolicy] = useState();
 
+    const handleName = async () => {
+        try {
+            const response = await axiosInstance.get('/api/users/me');
+            console.log('이름', response.data.name);
+            setName(response.data.name);
+        } catch(error) {
+            console.log('이름 가져오기 실패', error.response);
+        }
+    }
+
+    const handlePolicy = async () => {
+        try {
+            const response = await axiosInstance.get('/api/policy/recommendations/latest');
+            console.log('추천 정책', response);
+            setPolicy(response.data.source_documents);
+        } catch(error) {
+            console.log('추천 정책 가져오기 실패', error.response);
+        }
+    }
+
+    useEffect(() => {
+        handleName();
+        handlePolicy();
+    }, [])
+    
     return (
         <Wrapper>
             <View>
@@ -47,14 +73,16 @@ const Home = ({ navigation }) => {
                 </PreviewTop>
                 {previewType==="policy" ? (
                     <PreviewContentWrapper>
-                        <PolicyWrapper>
-                            {Policy.slice(0, 3).map((policy, index) => (
-                                <View key={index}>
-                                    <PolicyTitle>{policy.title}</PolicyTitle>
-                                    <PolicyDate>{policy.date}</PolicyDate>
-                                </View>
-                            ))}
-                        </PolicyWrapper>
+                        {policy && (
+                            <PolicyWrapper>
+                                {policy.slice(0, 3).map((item, index) => (
+                                    <Policy key={index} onPress={() => Linking.openURL(item.url)}>
+                                        <PolicyTitle numberOfLines={1} ellipsizeMode="tail">{item.title}</PolicyTitle>
+                                        <PolicyDate>{item.date.split('-').join('.')}</PolicyDate>
+                                    </Policy>
+                                ))}
+                            </PolicyWrapper>
+                        )}
                     </PreviewContentWrapper>
                 ) : (
                     <PreviewContentWrapper>
@@ -202,6 +230,10 @@ const PolicyWrapper = styled.View`
     display: flex;
     gap: 10px;
     margin-top: 8px;
+`
+
+const Policy = styled(TouchableOpacity)`
+
 `
 
 const PolicyTitle = styled.Text`
