@@ -7,7 +7,7 @@ import Change from '../../assets/images/livingInfo/change.png';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
 import 'moment/locale/ko';
-moment.locale('ko')
+moment.locale('ko');
 import Right from '../../assets/images/livingInfo/right.png';
 import Left from '../../assets/images/livingInfo/left.png';
 import axiosInstance from './../utils/axiosInstance';
@@ -70,12 +70,14 @@ const AiDiary = () => {
             setIsWritten(true);
             setDiaryId(diary.id);
             setReply(diary.reply);
-            await handleCorrect();
+            setTranslateReply(null);
         } catch(error) {
             setIsWritten(false);
             console.log('작성된 일기 존재하지 않음');
+            setContent('');
             setCorrect('');
             setReply('');
+            setTranslateReply(null);
         }
     }
     
@@ -95,13 +97,19 @@ const AiDiary = () => {
             console.log('일기 조언 번역', response.data);
             setTranslateReply(response.data);
         } catch(error) {
-            console.log('일기 조언 번역 실패', error);
+            console.log('일기 조언 번역 실패', error.response);
         }
     }
 
     useEffect(() => {
         fetchDiary(moment().format('YYYY-MM-DD'));
     }, []);
+
+    useEffect(() => {
+        if (diaryId !== null) {
+            handleCorrect();
+        }
+    }, [diaryId]);
 
     useEffect(() => {
         if (content!=='') {
@@ -210,6 +218,8 @@ const AiDiary = () => {
                             scrollEnabled={true}
                             value={content}
                             onChangeText={setContent}
+                            autoCapitalize="none"
+                            autoCorrect={false}
                         />
                         <PinkButton
                             text="작성 완료"
@@ -246,7 +256,7 @@ const DiaryWrapper = styled.View`
     background-color: #FFFFFF;
     border-radius: 15px;
     margin: 25px 15px 0 15px;
-    min-height: 270px;
+    min-height: 230px;
     /* 그림자 */
     shadow-color: rgba(0, 0, 0, 1);
     shadow-offset: {
@@ -283,6 +293,7 @@ const TranslateButton = styled(TouchableOpacity)`
     justify-content: center;
     gap: 4px;
     margin-left: auto;
+    margin-top: 3px;
 `
 
 const TranslateText = styled.Text`

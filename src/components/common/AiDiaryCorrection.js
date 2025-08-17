@@ -51,7 +51,13 @@ const Wrapper = styled.View`
 `
 
 const CorrectionWrapper = styled.View`
+    justify-items: end;
+    flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
+    gap: 0;
 `
 
 const CorrectedText = styled.Text`
